@@ -1,5 +1,5 @@
 {
-    "name": "t4web/sie-config",
+    "name": "t4web/site-config",
     "description": "Admin module for ZF2. Provide key-value storage and visualization configuration",
     "type": "library",
     "license": "GNU-GPL-2",
