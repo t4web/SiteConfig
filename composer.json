@@ -1,0 +1,32 @@
+{
+    "name": "t4web/sie-config",
+    "description": "Admin module for ZF2. Provide key-value storage and visualization configuration",
+    "type": "library",
+    "license": "GNU-GPL-2",
+    "keywords": [
+        "zf2"
+    ],
+    "homepage": "https://github.com/t4web/SiteConfig",
+    "authors": [
+        {
+            "name": "Max Gulturyan",
+            "email": "gulturyan@gmail.com",
+            "homepage": "http://about.me/maxgu"
+        }
+    ],
+    "require": {
+        "php": ">=5.3.3",
+        "zendframework/zendframework": "2.3.*"
+    },
+    "require-dev" : {
+        "codeception/codeception": "2.*"
+    },
+    "autoload": {
+        "psr-0": {
+            "Admin": "src/"
+        },
+        "classmap": [
+            "./Module.php"
+        ]
+    }
+}
