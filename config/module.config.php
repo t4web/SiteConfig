@@ -24,4 +24,21 @@ return array(
         ),
     ),
 
+    'console' => array(
+        'router' => array(
+            'routes' => array(
+                'site-config-init' => array(
+                    'options' => array(
+                        'route'    => 'site-config init',
+                        'defaults' => array(
+                            '__NAMESPACE__' => 'SiteConfig\Controller\Console',
+                            'controller' => 'Init',
+                            'action'     => 'run'
+                        )
+                    )
+                ),
+            )
+        )
+    ),
+
 );
