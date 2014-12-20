@@ -3,3 +3,4 @@ vendor
 tests/_output/*
 .idea
 composer.lock
+tests/_output/*

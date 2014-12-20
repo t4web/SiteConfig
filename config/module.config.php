@@ -10,13 +10,13 @@ return array(
 
     'router' => array(
         'routes' => array(
-            'admin' => array(
+            'site-config-admin-show' => array(
                 'type' => 'Literal',
                 'options' => array(
-                    'route'    => '/admin',
+                    'route'    => '/admin/site-config',
                     'defaults' => array(
-                        '__NAMESPACE__' => 'Admin\Controller\Admin',
-                        'controller'    => 'Phpinfo',
+                        '__NAMESPACE__' => 'SiteConfig\Controller\Admin',
+                        'controller'    => 'Show',
                         'action'        => 'default',
                     ),
                 ),

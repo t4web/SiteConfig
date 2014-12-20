@@ -49,7 +49,7 @@ class InitController extends AbstractActionController {
               `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
               `scope` varchar(50) COLLATE utf8_unicode_ci DEFAULT '',
               `name` varchar(100) COLLATE utf8_unicode_ci DEFAULT '',
-              `value` text COLLATE utf8_unicode_ci DEFAULT '',
+              `value` text COLLATE utf8_unicode_ci DEFAULT NULL,
               PRIMARY KEY (`id`)
             ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1;",
             Adapter::QUERY_MODE_EXECUTE
