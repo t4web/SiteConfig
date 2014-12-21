@@ -5,11 +5,21 @@ use Zend\ModuleManager\Feature\AutoloaderProviderInterface;
 use Zend\ModuleManager\Feature\ConfigProviderInterface;
 use Zend\ModuleManager\Feature\ControllerProviderInterface;
 use Zend\ModuleManager\Feature\ConsoleUsageProviderInterface;
+use Zend\ModuleManager\Feature\ServiceProviderInterface;
 use Zend\Mvc\Controller\ControllerManager;
 use Zend\Console\Adapter\AdapterInterface as ConsoleAdapterInterface;
+use Zend\ServiceManager\ServiceManager;
+use Zend\Db\TableGateway\TableGateway;
+use SiteConfig\Controller\Console\InitController;
+use SiteConfig\Controller\Admin\ShowController;
+use SiteConfig\Scope\DbRepository;
+use SiteConfig\Scope\Mapper as ScopeMapper;
+use SiteConfig\Scope\Service as ScopeService;
+use SiteConfig\ViewModel\Admin\ListViewModel;
 
 class Module implements AutoloaderProviderInterface, ConfigProviderInterface,
-                        ControllerProviderInterface, ConsoleUsageProviderInterface
+                        ControllerProviderInterface, ConsoleUsageProviderInterface,
+                        ServiceProviderInterface
 {
 
     public function getConfig($env = null)
@@ -35,6 +45,29 @@ class Module implements AutoloaderProviderInterface, ConfigProviderInterface,
         );
     }
 
+    public function getServiceConfig()
+    {
+        return array(
+            'factories' => array(
+                'SiteConfig\Scope\Service' => function (ServiceManager $sl) {
+                    return new ScopeService($sl->get('SiteConfig\Scope\DbRepository'));
+                },
+                'SiteConfig\Scope\DbRepository' => function (ServiceManager $sl) {
+                    $tableGateway = $sl->get('SiteConfig\Scope\TableGateway');
+                    $mapper = new ScopeMapper();
+
+                    return new DbRepository($tableGateway, $mapper);
+                },
+                'SiteConfig\Scope\TableGateway' => function (ServiceManager $sl) {
+                    return new TableGateway(
+                        't4_site_config',
+                        $sl->get('Zend\Db\Adapter\Adapter')
+                    );
+                },
+            )
+        );
+    }
+
     public function getControllerConfig()
     {
         return array(
@@ -42,14 +75,23 @@ class Module implements AutoloaderProviderInterface, ConfigProviderInterface,
                 'SiteConfig\Controller\Console\Init' => function (ControllerManager $cm) {
                     $sl = $cm->getServiceLocator();
 
-                    return new Controller\Console\InitController(
+                    return new InitController(
                         $sl->get('Zend\Db\Adapter\Adapter'),
                         $sl->get('Zend\Db\Metadata\Metadata')
                     );
                 },
+                'SiteConfig\Controller\Admin\Show' => function (ControllerManager $cm) {
+                    $sl = $cm->getServiceLocator();
+
+                    return new ShowController(
+                        $sl->get('SiteConfig\Scope\Service'),
+                        new ListViewModel()
+                    );
+                },
             ),
+
             'invokables' => array(
-                'SiteConfig\Controller\Admin\Show' => 'SiteConfig\Controller\Admin\ShowController',
+
             )
         );
     }
