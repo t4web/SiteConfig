@@ -4,6 +4,7 @@ namespace SiteConfig\Controller\Admin;
 
 use Zend\Mvc\Controller\AbstractActionController;
 use SiteConfig\Scope\Service as ScopeService;
+use SiteConfig\Value\Service as ValueService;
 use SiteConfig\ViewModel\Admin\ListViewModel;
 
 class ShowController extends AbstractActionController {
@@ -14,13 +15,21 @@ class ShowController extends AbstractActionController {
     private $scopeService;
 
     /**
+     * @var ValueService
+     */
+    private $valueService;
+
+    /**
      * @var ListViewModel
      */
     private $viewModel;
 
-    function __construct(ScopeService $scopeService, ListViewModel $viewModel)
+    function __construct(ScopeService $scopeService,
+        ValueService $valueService,
+        ListViewModel $viewModel)
     {
         $this->scopeService = $scopeService;
+        $this->valueService = $valueService;
         $this->viewModel = $viewModel;
     }
 
@@ -31,7 +40,15 @@ class ShowController extends AbstractActionController {
     {
         $selectedScope = $this->getFromQuery('scope');
 
-        $this->viewModel->setScopes($this->scopeService->getAll());
+        $scopes = $this->scopeService->getAll();
+
+        $this->viewModel->setScopes($scopes);
+
+        if (empty($selectedScope)) {
+            $selectedScope = $scopes[0]->getName();
+        }
+
+        $this->viewModel->setValues($this->valueService->getAll(['scope' => $selectedScope]));
         $this->viewModel->setSelectedScopeName($selectedScope);
 
         return $this->viewModel;

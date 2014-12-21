@@ -40,18 +40,24 @@ class ShowControllerTest extends \PHPUnit_Framework_TestCase
 
     public function testCreation()
     {
-        $moduleService = $this->getMockBuilder('SiteConfig\Scope\Service')
+        $scopeService = $this->getMockBuilder('SiteConfig\Scope\Service')
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->serviceManager->setService('SiteConfig\Scope\Service', $moduleService);
+        $valueService = $this->getMockBuilder('SiteConfig\Value\Service')
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $this->serviceManager->setService('SiteConfig\Scope\Service', $scopeService);
+        $this->serviceManager->setService('SiteConfig\Value\Service', $valueService);
 
         $this->assertTrue($this->controllerManager->has('SiteConfig\Controller\Admin\Show'));
 
         $controller = $this->controllerManager->get('SiteConfig\Controller\Admin\Show');
 
         $this->assertInstanceOf('SiteConfig\Controller\Admin\ShowController', $controller);
-        $this->assertAttributeInstanceOf('SiteConfig\Scope\Service', 'scopeService', $controller);
+        $this->assertAttributeEquals($scopeService, 'scopeService', $controller);
+        $this->assertAttributeEquals($valueService, 'valueService', $controller);
         $this->assertAttributeInstanceOf('SiteConfig\ViewModel\Admin\ListViewModel', 'viewModel', $controller);
     }
 

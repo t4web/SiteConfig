@@ -3,6 +3,8 @@ namespace SiteConfig\UnitTest\Controller\Admin;
 
 use SiteConfig\Controller\Admin\ShowController;
 use SiteConfig\Scope\ScopesCollection;
+use SiteConfig\Scope\Scope;
+use SiteConfig\Value\ValuesCollection;
 use SiteConfig\ViewModel\Admin\ListViewModel;
 
 class ShowControllerTest extends \PHPUnit_Framework_TestCase
@@ -13,6 +15,7 @@ class ShowControllerTest extends \PHPUnit_Framework_TestCase
     private $controller;
 
     private $scopeServiceMock;
+    private $valueServiceMock;
     private $viewModel;
 
     protected function setUp()
@@ -21,10 +24,15 @@ class ShowControllerTest extends \PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->getMock();
 
+        $this->valueServiceMock = $this->getMockBuilder('SiteConfig\Value\Service')
+            ->disableOriginalConstructor()
+            ->getMock();
+
         $this->viewModel = new ListViewModel();
 
         $this->controller = new ShowController(
             $this->scopeServiceMock,
+            $this->valueServiceMock,
             $this->viewModel
         );
     }
@@ -32,15 +40,23 @@ class ShowControllerTest extends \PHPUnit_Framework_TestCase
     public function testShowAction()
     {
         $scopes = new ScopesCollection();
+        $scopes[] = new Scope('name');
 
         $this->scopeServiceMock->expects($this->once())
             ->method('getAll')
             ->will($this->returnValue($scopes));
 
+        $values = new ValuesCollection();
+
+        $this->valueServiceMock->expects($this->once())
+            ->method('getAll')
+            ->will($this->returnValue($values));
+
         $view = $this->controller->defaultAction();
 
         $this->assertEquals($this->viewModel, $view);
         $this->assertEquals($scopes, $view->getScopes());
+        $this->assertEquals($values, $view->getValues());
     }
 
 }

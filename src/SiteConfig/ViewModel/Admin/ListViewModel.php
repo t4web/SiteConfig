@@ -5,6 +5,7 @@ namespace SiteConfig\ViewModel\Admin;
 use Zend\View\Model\ViewModel;
 use SiteConfig\Scope\ScopesCollection;
 use SiteConfig\Scope\Scope;
+use SiteConfig\Value\ValuesCollection;
 
 class ListViewModel extends ViewModel {
 
@@ -17,6 +18,11 @@ class ListViewModel extends ViewModel {
      * @var string
      */
     private $selectedScopeName;
+
+    /**
+     * @var ValuesCollection
+     */
+    private $values;
 
     /**
      * @return ScopesCollection
@@ -57,6 +63,22 @@ class ListViewModel extends ViewModel {
     public function setSelectedScopeName($selectedScopeName)
     {
         $this->selectedScopeName = $selectedScopeName;
+    }
+
+    /**
+     * @return ValuesCollection
+     */
+    public function getValues()
+    {
+        return $this->values;
+    }
+
+    /**
+     * @param ValuesCollection $values
+     */
+    public function setValues($values)
+    {
+        $this->values = $values;
     }
 
 }

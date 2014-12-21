@@ -1,6 +1,6 @@
 <?php
 
-namespace SiteConfig\Scope;
+namespace SiteConfig\Value;
 
 
 class Mapper {
@@ -12,23 +12,24 @@ class Mapper {
 
     public function __construct() {
         $this->columnsAsAttributesMap = [
-            'scope' => 'scope',
+            'name' => 'name',
+            'value' => 'value',
         ];
     }
 
     /**
      * @param array $rows
      *
-     * @return ScopesCollection
+     * @return ValuesCollection
      */
     public function fromTableRows(array $rows) {
-        $scopes = new ScopesCollection();
+        $values = new ValuesCollection();
 
         foreach ($rows as $row) {
-            $scopes[] = $this->fromTableRow($row);
+            $values[] = $this->fromTableRow($row);
         }
 
-        return $scopes;
+        return $values;
     }
 
     /**
@@ -39,14 +40,16 @@ class Mapper {
     public function fromTableRow(array $row) {
         $attributesValues = $this->getIntersectValuesAsKeys(array_flip($this->columnsAsAttributesMap), $row);
 
-        return new Scope(
-            $attributesValues['scope']
+        return new Value(
+            $attributesValues['name'],
+            $attributesValues['value']
         );
     }
 
     public function toTableRow(Scope $scope) {
         $objectState = [
-            'scope' => $scope->getName(),
+            'name' => $scope->getName(),
+            'value' => $scope->getValue(),
         ];
 
         return $this->getIntersectValuesAsKeys($this->columnsAsAttributesMap, $objectState);

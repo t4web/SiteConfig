@@ -12,9 +12,12 @@ use Zend\ServiceManager\ServiceManager;
 use Zend\Db\TableGateway\TableGateway;
 use SiteConfig\Controller\Console\InitController;
 use SiteConfig\Controller\Admin\ShowController;
-use SiteConfig\Scope\DbRepository;
+use SiteConfig\Scope\DbRepository as ScopeRepository;
 use SiteConfig\Scope\Mapper as ScopeMapper;
 use SiteConfig\Scope\Service as ScopeService;
+use SiteConfig\Value\DbRepository as ValueRepository;
+use SiteConfig\Value\Mapper as ValueMapper;
+use SiteConfig\Value\Service as ValueService;
 use SiteConfig\ViewModel\Admin\ListViewModel;
 
 class Module implements AutoloaderProviderInterface, ConfigProviderInterface,
@@ -56,9 +59,25 @@ class Module implements AutoloaderProviderInterface, ConfigProviderInterface,
                     $tableGateway = $sl->get('SiteConfig\Scope\TableGateway');
                     $mapper = new ScopeMapper();
 
-                    return new DbRepository($tableGateway, $mapper);
+                    return new ScopeRepository($tableGateway, $mapper);
                 },
                 'SiteConfig\Scope\TableGateway' => function (ServiceManager $sl) {
+                    return new TableGateway(
+                        't4_site_config',
+                        $sl->get('Zend\Db\Adapter\Adapter')
+                    );
+                },
+
+                'SiteConfig\Value\Service' => function (ServiceManager $sl) {
+                    return new ValueService($sl->get('SiteConfig\Value\DbRepository'));
+                },
+                'SiteConfig\Value\DbRepository' => function (ServiceManager $sl) {
+                    $tableGateway = $sl->get('SiteConfig\Value\TableGateway');
+                    $mapper = new ValueMapper();
+
+                    return new ValueRepository($tableGateway, $mapper);
+                },
+                'SiteConfig\Value\TableGateway' => function (ServiceManager $sl) {
                     return new TableGateway(
                         't4_site_config',
                         $sl->get('Zend\Db\Adapter\Adapter')
@@ -85,6 +104,7 @@ class Module implements AutoloaderProviderInterface, ConfigProviderInterface,
 
                     return new ShowController(
                         $sl->get('SiteConfig\Scope\Service'),
+                        $sl->get('SiteConfig\Value\Service'),
                         new ListViewModel()
                     );
                 },
