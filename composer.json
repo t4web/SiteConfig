@@ -15,8 +15,10 @@
         }
     ],
     "require": {
-        "php": ">=5.3.3",
-        "zendframework/zendframework": "2.3.*"
+        "php": ">=5.4.0",
+        "zendframework/zendframework": "2.3.*",
+        "league/flysystem": "0.3.*",
+        "falc/flysystem-local-symlink-plugin": "dev-master"
     },
     "require-dev" : {
         "codeception/codeception": "2.*"
