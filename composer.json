@@ -18,7 +18,7 @@
         "php": ">=5.4.0",
         "zendframework/zendframework": "2.3.*",
         "league/flysystem": "0.5.*",
-        "falc/flysystem-local-symlink-plugin": "dev-master"
+        "falc/flysystem-local-symlink-plugin": "1.0.*"
     },
     "require-dev" : {
         "codeception/codeception": "2.*"
