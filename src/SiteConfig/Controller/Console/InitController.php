@@ -5,6 +5,7 @@ namespace SiteConfig\Controller\Console;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\Db\Adapter\Adapter;
 use Zend\Db\Metadata\Metadata;
+use League\Flysystem\Filesystem;
 
 class InitController extends AbstractActionController {
 
@@ -18,9 +19,15 @@ class InitController extends AbstractActionController {
      */
     private $metadata;
 
-    public function __construct(Adapter $dbAdapter, Metadata $metadata){
+    /**
+     * @var Filesystem
+     */
+    private $fileSystem;
+
+    public function __construct(Adapter $dbAdapter, Metadata $metadata, Filesystem $fileSystem){
         $this->dbAdapter = $dbAdapter;
         $this->metadata = $metadata;
+        $this->fileSystem = $fileSystem;
     }
 
     public function runAction() {
@@ -53,6 +60,14 @@ class InitController extends AbstractActionController {
               PRIMARY KEY (`id`)
             ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1;",
             Adapter::QUERY_MODE_EXECUTE
+        );
+
+        $vendorSiteConfigRootPath = dirname(dirname(dirname(dirname(__DIR__))));
+
+        //$this->fileSystem->symlink($root . '/public/adm/js/site-config/', getcwd() . '/public/adm/js/site-config');
+        $this->fileSystem->symlink(
+            getcwd() . '/public/adm/js/site-config',
+            $vendorSiteConfigRootPath . '/public/adm/js/site-config/'
         );
 
         return "Success completed" . PHP_EOL;

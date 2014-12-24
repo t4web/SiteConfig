@@ -10,6 +10,9 @@ use Zend\Mvc\Controller\ControllerManager;
 use Zend\Console\Adapter\AdapterInterface as ConsoleAdapterInterface;
 use Zend\ServiceManager\ServiceManager;
 use Zend\Db\TableGateway\TableGateway;
+use League\Flysystem\Filesystem;
+use League\Flysystem\Adapter\Local as LocalAdapter;
+use Falc\Flysystem\Plugin\Symlink\Local as LocalSymlinkPlugin;
 use SiteConfig\Controller\Console\InitController;
 use SiteConfig\Controller\Admin\ShowController;
 use SiteConfig\Scope\DbRepository as ScopeRepository;
@@ -94,9 +97,13 @@ class Module implements AutoloaderProviderInterface, ConfigProviderInterface,
                 'SiteConfig\Controller\Console\Init' => function (ControllerManager $cm) {
                     $sl = $cm->getServiceLocator();
 
+                    $fileSystem = new Filesystem(new LocalAdapter(__DIR__));
+                    $fileSystem->addPlugin(new LocalSymlinkPlugin\Symlink());
+
                     return new InitController(
                         $sl->get('Zend\Db\Adapter\Adapter'),
-                        $sl->get('Zend\Db\Metadata\Metadata')
+                        $sl->get('Zend\Db\Metadata\Metadata'),
+                        $fileSystem
                     );
                 },
                 'SiteConfig\Controller\Admin\Show' => function (ControllerManager $cm) {

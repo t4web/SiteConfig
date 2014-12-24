@@ -9,10 +9,10 @@
         <div class="col-md-12">
             <div class="box box-solid">
                 <div class="box-body">
-                    <form role="form">
+                    <form role="form" id="config-values">
                         <?php foreach($viewModel->getValues() as $value): ?>
                             <?= $this->partial('site-config/partials/admin-config-value.phtml',
-                                ['label' => $value->getName(), 'value' => $value->getValue()]) ?>
+                                ['name' => $value->getName(), 'value' => $value->getValue()]) ?>
                         <?php endforeach; ?>
                     </form>
                 </div>
