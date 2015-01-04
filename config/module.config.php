@@ -6,6 +6,11 @@ return array(
         'template_path_stack' => array(
             'admin' => __DIR__ . '/../view',
         ),
+        'display_exceptions' => false,
+        'display_not_found_reason' => false,
+        'strategies' => array(
+            'ViewJsonStrategy',
+        ),
     ),
 
     'router' => array(
@@ -17,6 +22,17 @@ return array(
                     'defaults' => array(
                         '__NAMESPACE__' => 'SiteConfig\Controller\Admin',
                         'controller'    => 'Show',
+                        'action'        => 'default',
+                    ),
+                ),
+            ),
+            'site-config-admin-save' => array(
+                'type' => 'Literal',
+                'options' => array(
+                    'route'    => '/admin/site-config/save',
+                    'defaults' => array(
+                        '__NAMESPACE__' => 'SiteConfig\Controller\Admin',
+                        'controller'    => 'SaveAjax',
                         'action'        => 'default',
                     ),
                 ),

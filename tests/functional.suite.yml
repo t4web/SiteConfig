@@ -6,4 +6,9 @@
 
 class_name: FunctionalTester
 modules:
-    enabled: [Filesystem, FunctionalHelper]
+    enabled: [Filesystem, FunctionalHelper, PhpBrowser, REST]
+    config:
+        PhpBrowser:
+             url: http://localhost:8080/
+        REST:
+             url: http://localhost:8080

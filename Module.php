@@ -15,6 +15,7 @@ use League\Flysystem\Adapter\Local as LocalAdapter;
 use Falc\Flysystem\Plugin\Symlink\Local as LocalSymlinkPlugin;
 use SiteConfig\Controller\Console\InitController;
 use SiteConfig\Controller\Admin\ShowController;
+use SiteConfig\Controller\Admin\SaveAjaxController;
 use SiteConfig\Scope\DbRepository as ScopeRepository;
 use SiteConfig\Scope\Mapper as ScopeMapper;
 use SiteConfig\Scope\Service as ScopeService;
@@ -22,6 +23,7 @@ use SiteConfig\Value\DbRepository as ValueRepository;
 use SiteConfig\Value\Mapper as ValueMapper;
 use SiteConfig\Value\Service as ValueService;
 use SiteConfig\ViewModel\Admin\ListViewModel;
+use SiteConfig\ViewModel\Admin\SaveAjaxViewModel;
 
 class Module implements AutoloaderProviderInterface, ConfigProviderInterface,
                         ControllerProviderInterface, ConsoleUsageProviderInterface,
@@ -113,6 +115,12 @@ class Module implements AutoloaderProviderInterface, ConfigProviderInterface,
                         $sl->get('SiteConfig\Scope\Service'),
                         $sl->get('SiteConfig\Value\Service'),
                         new ListViewModel()
+                    );
+                },
+
+                'SiteConfig\Controller\Admin\SaveAjax' => function (ControllerManager $cm) {
+                    return new SaveAjaxController(
+                        new SaveAjaxViewModel()
                     );
                 },
             ),
