@@ -46,7 +46,7 @@ class Mapper {
         );
     }
 
-    public function toTableRow(Scope $scope) {
+    public function toTableRow(Value $scope) {
         $objectState = [
             'name' => $scope->getName(),
             'value' => $scope->getValue(),

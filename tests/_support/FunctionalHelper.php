@@ -6,6 +6,11 @@ namespace Codeception\Module;
 
 class FunctionalHelper extends \Codeception\Module
 {
+    public function getApplication()
+    {
+        return $this->getModule('ZF2')->application;
+    }
+
     public function assertJsonStructure($expectedJson, $object)
     {
         $expectedJson = str_replace(array('<', '>'), '"', $expectedJson);

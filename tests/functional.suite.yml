@@ -6,7 +6,7 @@
 
 class_name: FunctionalTester
 modules:
-    enabled: [Filesystem, FunctionalHelper, PhpBrowser, REST]
+    enabled: [ZF2, Filesystem, FunctionalHelper, PhpBrowser, REST, Asserts]
     config:
         PhpBrowser:
              url: http://localhost:8080/

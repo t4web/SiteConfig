@@ -23,4 +23,14 @@ class Service
         return $this->repository->findAll($criteria);
     }
 
+    /**
+     * @param Value $value
+     *
+     * @return int
+     */
+    public function create(Value $value)
+    {
+        return $this->repository->add($value);
+    }
+
 }

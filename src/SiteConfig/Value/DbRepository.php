@@ -2,8 +2,6 @@
 namespace SiteConfig\Value;
 
 use Zend\Db\TableGateway\TableGatewayInterface;
-use Zend\Db\Sql\Select;
-use Zend\Db\Sql\Expression;
 
 class DbRepository {
 
@@ -36,6 +34,17 @@ class DbRepository {
             ->toArray();
 
         return $this->mapper->fromTableRows($rows);
+    }
+
+    /**
+     * @param Value $value
+     *
+     * @return int
+     */
+    public function add(Value $value)
+    {
+        $row = $this->mapper->toTableRow($value);
+        return $this->tableGateway->insert($row);
     }
 
 }

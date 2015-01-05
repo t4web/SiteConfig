@@ -4,7 +4,6 @@ namespace SiteConfig\Controller\Admin;
 
 use Zend\Mvc\Controller\AbstractActionController;
 use SiteConfig\ViewModel\Admin\SaveAjaxViewModel;
-use InvalidArgumentException;
 
 class SaveAjaxController extends AbstractActionController {
 

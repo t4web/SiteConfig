@@ -57,6 +57,12 @@ class Module implements AutoloaderProviderInterface, ConfigProviderInterface,
     {
         return array(
             'factories' => array(
+                'SiteConfig\VariableManager' => function (ServiceManager $sl) {
+                    return new VariableManager(
+                        $sl->get('SiteConfig\Value\Service')
+                    );
+                },
+
                 'SiteConfig\Scope\Service' => function (ServiceManager $sl) {
                     return new ScopeService($sl->get('SiteConfig\Scope\DbRepository'));
                 },
