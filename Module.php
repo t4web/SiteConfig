@@ -110,7 +110,6 @@ class Module implements AutoloaderProviderInterface, ConfigProviderInterface,
 
                     return new InitController(
                         $sl->get('Zend\Db\Adapter\Adapter'),
-                        $sl->get('Zend\Db\Metadata\Metadata'),
                         $fileSystem
                     );
                 },
