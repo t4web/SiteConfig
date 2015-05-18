@@ -22,7 +22,7 @@ class FunctionalHelper extends \Codeception\Module
 
     private function parseStructure($structure, $object)
     {
-        foreach ($structure as $fieldName=>$type) {
+        foreach ($structure as $fieldName => $type) {
             \PHPUnit_Framework_Assert::assertArrayHasKey($fieldName, $object);
 
             if (is_array($type)) {

@@ -1,7 +1,7 @@
 <?php
-namespace SiteConfig\FunctionalTest;
+namespace T4webSiteConfig\FunctionalTest;
 
-use SiteConfig\FunctionalTester;
+use T4webSiteConfig\FunctionalTester;
 
 class SaveVariableAjaxCest
 {

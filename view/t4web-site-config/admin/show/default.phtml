@@ -1,0 +1,24 @@
+<?php $this->headScript()->appendFile($this->basePath() . '/js/admin/t4web-site-config/show.js'); ?>
+
+<?php $viewModel = $this->viewModel()->getCurrent(); ?>
+<?= $this->partial('t4web-site-config/partials/admin-menu.phtml', ['scopes' => $viewModel->getScopes(), 'viewModel' => $viewModel]) ?>
+
+<section class="content">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="box box-solid">
+                <div class="box-body">
+                    <form role="form" id="config-values">
+                        <?php if ($viewModel->getValues()->count()): ?>
+                            <?php foreach ($viewModel->getValues() as $value): ?>
+                                <?= $this->partial('t4web-site-config/partials/admin-config-value.phtml', ['name' => $value->getName(), 'value' => $value->getValue()]) ?>
+                            <?php endforeach; ?>
+                        <?php else: ?>
+                            <?= $this->partial('t4web-site-config/partials/admin-config-value.phtml', ['name' => 'default', 'value' => '']) ?>
+                        <?php endif; ?>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

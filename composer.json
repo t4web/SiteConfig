@@ -1,34 +1,51 @@
 {
-    "name": "t4web/site-config",
-    "description": "Admin module for ZF2. Provide key-value storage and visualization configuration",
-    "type": "library",
-    "license": "BSD-3-Clause",
-    "keywords": [
-        "zf2"
-    ],
-    "homepage": "https://github.com/t4web/SiteConfig",
-    "authors": [
-        {
-            "name": "Max Gulturyan",
-            "email": "gulturyan@gmail.com",
-            "homepage": "http://about.me/maxgu"
-        }
-    ],
-    "require": {
-        "php": ">=5.4.0",
-        "zendframework/zendframework": "2.4.*",
-        "league/flysystem": "0.5.*",
-        "falc/flysystem-local-symlink-plugin": "1.0.*"
-    },
-    "require-dev" : {
-        "codeception/codeception": "2.*"
-    },
-    "autoload": {
-        "psr-0": {
-            "SiteConfig": "src/"
-        },
-        "classmap": [
-            "./Module.php"
-        ]
+  "name": "t4web/site-config",
+  "description": "Admin module for ZF2. Provide key-value storage and visualization configuration",
+  "type": "library",
+  "license": "BSD-3-Clause",
+  "keywords": [
+    "zf2",
+    "site-config",
+    "site config"
+  ],
+  "homepage": "https://github.com/t4web/SiteConfig",
+  "authors": [
+    {
+      "name": "Max Gulturyan",
+      "email": "gulturyan@gmail.com",
+      "homepage": "http://about.me/maxgu"
     }
+  ],
+  "repositories": [
+    {
+      "type": "git",
+      "url": "https://github.com/t4web/base.git"
+    }
+  ],
+  "require": {
+    "php": ">=5.4.0",
+    "zendframework/zendframework": "2.4.*",
+    "league/flysystem": "0.5.*",
+    "falc/flysystem-local-symlink-plugin": "1.0.*",
+    "t4web/base": "dev-master"
+  },
+  "require-dev": {
+    "codeception/codeception": "2.*"
+  },
+  "autoload": {
+    "psr-0": {
+      "T4webSiteConfig": "src/",
+      "T4webSiteConfig\\UnitTest": "tests/UnitTest/",
+      "T4webSiteConfig\\FunctionalTest": "tests/FunctionalTest/",
+      "T4webSiteConfig\\AcceptanceTest": "tests/AcceptanceTest/"
+    },
+    "classmap": [
+      "./Module.php"
+    ]
+  },
+  "scripts": {
+    "post-update-cmd": [
+      "php public/index.php site-config init"
+    ]
+  }
 }

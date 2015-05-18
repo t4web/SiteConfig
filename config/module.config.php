@@ -13,27 +13,45 @@ return array(
         ),
     ),
 
+    'controllers' => array(
+        'factories' => array(
+            'T4webSiteConfig\Controller\Console\Init' => 'T4webSiteConfig\Factory\Controller\Console\InitControllerFactory',
+            'T4webSiteConfig\Controller\Admin\Show' => 'T4webSiteConfig\Factory\Controller\Admin\ShowControllerFactory',
+            'T4webSiteConfig\Controller\Admin\SaveAjax' => 'T4webSiteConfig\Factory\Controller\Admin\SaveAjaxControllerFactory',
+        ),
+    ),
+
+    'service_manager' => array(
+        'invokables' => array(
+            'T4webSiteConfig\Value\InputFilter\Create' => 'T4webSiteConfig\Value\InputFilter\Create',
+            'T4webSiteConfig\Value\InputFilter\Update' => 'T4webSiteConfig\Value\InputFilter\Update',
+
+            'T4webSiteConfig\ViewModel\Admin\ListViewModel' => 'T4webSiteConfig\ViewModel\Admin\ListViewModel',
+            'T4webSiteConfig\ViewModel\Admin\SaveAjaxViewModel' => 'T4webSiteConfig\ViewModel\Admin\SaveAjaxViewModel',
+        ),
+    ),
+
     'router' => array(
         'routes' => array(
             'site-config-admin-show' => array(
                 'type' => 'Literal',
                 'options' => array(
-                    'route'    => '/admin/site-config',
+                    'route' => '/admin/site-config',
                     'defaults' => array(
-                        '__NAMESPACE__' => 'SiteConfig\Controller\Admin',
-                        'controller'    => 'Show',
-                        'action'        => 'default',
+                        '__NAMESPACE__' => 'T4webSiteConfig\Controller\Admin',
+                        'controller' => 'Show',
+                        'action' => 'default',
                     ),
                 ),
             ),
             'site-config-admin-save' => array(
                 'type' => 'Literal',
                 'options' => array(
-                    'route'    => '/admin/site-config/save',
+                    'route' => '/admin/site-config/save',
                     'defaults' => array(
-                        '__NAMESPACE__' => 'SiteConfig\Controller\Admin',
-                        'controller'    => 'SaveAjax',
-                        'action'        => 'default',
+                        '__NAMESPACE__' => 'T4webSiteConfig\Controller\Admin',
+                        'controller' => 'SaveAjax',
+                        'action' => 'default',
                     ),
                 ),
             ),
@@ -45,11 +63,11 @@ return array(
             'routes' => array(
                 'site-config-init' => array(
                     'options' => array(
-                        'route'    => 'site-config init',
+                        'route' => 'site-config init',
                         'defaults' => array(
-                            '__NAMESPACE__' => 'SiteConfig\Controller\Console',
+                            '__NAMESPACE__' => 'T4webSiteConfig\Controller\Console',
                             'controller' => 'Init',
-                            'action'     => 'run'
+                            'action' => 'run'
                         )
                     )
                 ),
@@ -57,4 +75,68 @@ return array(
         )
     ),
 
+    'db' => array(
+        'tables' => array(
+            't4websiteconfig-value' => array(
+                'name' => 'site_config',
+                'columnsAsAttributesMap' => array(
+                    'id' => 'id',
+                    'name' => 'name',
+                    'value' => 'value',
+                ),
+            ),
+            't4websiteconfig-scope' => array(
+                'name' => 'site_config',
+                'columnsAsAttributesMap' => array(
+                    'id' => 'id',
+                    'scope' => 'name',
+                ),
+            ),
+        ),
+    ),
+
+    'criteries' => array(
+        'Scope' => array(
+            'empty' => array(
+                'table' => 'site_config',
+            ),
+            'Id' => array(
+                'table' => 'site_config',
+                'field' => 'name',
+                'buildMethod' => 'addFilterEqual',
+            ),
+            'id' => array(
+                'table' => 'site_config',
+                'field' => 'id',
+                'buildMethod' => 'addFilterEqual',
+            ),
+            'ids' => array(
+                'table' => 'site_config',
+                'field' => 'id',
+                'buildMethod' => 'addFilterIn',
+            ),
+
+        ),
+        'Value' => array(
+            'empty' => array(
+                'table' => 'site_config',
+            ),
+            'Id' => array(
+                'table' => 'site_config',
+                'field' => 'name',
+                'buildMethod' => 'addFilterEqual',
+            ),
+            'id' => array(
+                'table' => 'site_config',
+                'field' => 'id',
+                'buildMethod' => 'addFilterEqual',
+            ),
+            'ids' => array(
+                'table' => 'site_config',
+                'field' => 'id',
+                'buildMethod' => 'addFilterIn',
+            ),
+
+        ),
+    ),
 );

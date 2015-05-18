@@ -1,0 +1,21 @@
+<section class="content-header">
+    <nav class="module navbar navbar-default" role="navigation">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="<?= $this->url('site-config-admin-show'); ?>"><i class="fa fa-cogs"></i> Site
+                config</a>
+        </div>
+
+        <?php if ($this->scopes->count() > 0): ?>
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav">
+                    <!-- <li class="active"><a href="#">Scope 1</a></li>-->
+                    <?php foreach ($this->scopes as $scope): ?>
+                        <li <?= $this->viewModel->determineActiveForScope($scope) ?>>
+                            <a href="<?= $this->url('site-config-admin-show', [], ['query' => ['scope' => $scope->getName()]]); ?>"><?= $scope->getName(); ?></a>
+                        </li>
+                    <?php endforeach; ?>
+                </ul>
+            </div>
+        <?php endif; ?>
+    </nav>
+</section>

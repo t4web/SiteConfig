@@ -1,8 +1,8 @@
 <?php
-namespace SiteConfig\FunctionalTest\VariableManager;
+namespace T4webSiteConfig\FunctionalTest\VariableManager;
 
 use Zend\Db\Adapter\Adapter;
-use SiteConfig\FunctionalTester;
+use T4webSiteConfig\FunctionalTester;
 
 class CreateVariableCest
 {

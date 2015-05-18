@@ -1,33 +1,19 @@
 <?php
-namespace SiteConfig;
+namespace T4webSiteConfig;
 
 use Zend\ModuleManager\Feature\AutoloaderProviderInterface;
 use Zend\ModuleManager\Feature\ConfigProviderInterface;
-use Zend\ModuleManager\Feature\ControllerProviderInterface;
 use Zend\ModuleManager\Feature\ConsoleUsageProviderInterface;
 use Zend\ModuleManager\Feature\ServiceProviderInterface;
-use Zend\Mvc\Controller\ControllerManager;
 use Zend\Console\Adapter\AdapterInterface as ConsoleAdapterInterface;
 use Zend\ServiceManager\ServiceManager;
-use Zend\Db\TableGateway\TableGateway;
-use League\Flysystem\Filesystem;
-use League\Flysystem\Adapter\Local as LocalAdapter;
-use Falc\Flysystem\Plugin\Symlink\Local as LocalSymlinkPlugin;
-use SiteConfig\Controller\Console\InitController;
-use SiteConfig\Controller\Admin\ShowController;
-use SiteConfig\Controller\Admin\SaveAjaxController;
-use SiteConfig\Scope\DbRepository as ScopeRepository;
-use SiteConfig\Scope\Mapper as ScopeMapper;
-use SiteConfig\Scope\Service as ScopeService;
-use SiteConfig\Value\DbRepository as ValueRepository;
-use SiteConfig\Value\Mapper as ValueMapper;
-use SiteConfig\Value\Service as ValueService;
-use SiteConfig\ViewModel\Admin\ListViewModel;
-use SiteConfig\ViewModel\Admin\SaveAjaxViewModel;
+
+use T4webBase\Domain\Service\Create as ServiceCreate;
+use T4webBase\Domain\Service\Update as ServiceUpdate;
+use T4webBase\Domain\Service\BaseFinder as ServiceFinder;
 
 class Module implements AutoloaderProviderInterface, ConfigProviderInterface,
-                        ControllerProviderInterface, ConsoleUsageProviderInterface,
-                        ServiceProviderInterface
+    ConsoleUsageProviderInterface, ServiceProviderInterface
 {
 
     public function getConfig($env = null)
@@ -57,82 +43,43 @@ class Module implements AutoloaderProviderInterface, ConfigProviderInterface,
     {
         return array(
             'factories' => array(
-                'SiteConfig\VariableManager' => function (ServiceManager $sl) {
+                'T4webSiteConfig\VariableManager' => function (ServiceManager $sm) {
                     return new VariableManager(
-                        $sl->get('SiteConfig\Value\Service')
+                        $sm->get('T4webSiteConfig\Value\Service\Create')
                     );
                 },
 
-                'SiteConfig\Scope\Service' => function (ServiceManager $sl) {
-                    return new ScopeService($sl->get('SiteConfig\Scope\DbRepository'));
-                },
-                'SiteConfig\Scope\DbRepository' => function (ServiceManager $sl) {
-                    $tableGateway = $sl->get('SiteConfig\Scope\TableGateway');
-                    $mapper = new ScopeMapper();
-
-                    return new ScopeRepository($tableGateway, $mapper);
-                },
-                'SiteConfig\Scope\TableGateway' => function (ServiceManager $sl) {
-                    return new TableGateway(
-                        't4_site_config',
-                        $sl->get('Zend\Db\Adapter\Adapter')
+                'T4webSiteConfig\Value\Service\Finder' => function (ServiceManager $sm) {
+                    return new ServiceFinder(
+                        $sm->get('T4webSiteConfig\Value\Repository\DbRepository'),
+                        $sm->get('T4webSiteConfig\Value\Criteria\CriteriaFactory')
                     );
                 },
 
-                'SiteConfig\Value\Service' => function (ServiceManager $sl) {
-                    return new ValueService($sl->get('SiteConfig\Value\DbRepository'));
+                'T4webSiteConfig\Value\Service\Create' => function (ServiceManager $sm) {
+                    return new ServiceCreate(
+                        $sm->get('T4webSiteConfig\Value\InputFilter\Create'),
+                        $sm->get('T4webSiteConfig\Value\Repository\DbRepository'),
+                        $sm->get('T4webSiteConfig\Value\Factory\EntityFactory')
+                    );
                 },
-                'SiteConfig\Value\DbRepository' => function (ServiceManager $sl) {
-                    $tableGateway = $sl->get('SiteConfig\Value\TableGateway');
-                    $mapper = new ValueMapper();
 
-                    return new ValueRepository($tableGateway, $mapper);
+                'T4webSiteConfig\Value\Service\Update' => function (ServiceManager $sm) {
+                    return new ServiceUpdate(
+                        $sm->get('T4webSiteConfig\Value\InputFilter\Update'),
+                        $sm->get('T4webSiteConfig\Value\Repository\DbRepository'),
+                        $sm->get('T4webSiteConfig\Value\Criteria\CriteriaFactory')
+                    );
                 },
-                'SiteConfig\Value\TableGateway' => function (ServiceManager $sl) {
-                    return new TableGateway(
-                        't4_site_config',
-                        $sl->get('Zend\Db\Adapter\Adapter')
+
+                'T4webSiteConfig\Scope\Service\Finder' => function (ServiceManager $sm) {
+                    return new ServiceFinder(
+                        $sm->get('T4webSiteConfig\Scope\Repository\DbRepository'),
+                        $sm->get('T4webSiteConfig\Scope\Criteria\CriteriaFactory')
                     );
                 },
             )
         );
     }
 
-    public function getControllerConfig()
-    {
-        return array(
-            'factories' => array(
-                'SiteConfig\Controller\Console\Init' => function (ControllerManager $cm) {
-                    $sl = $cm->getServiceLocator();
-
-                    $fileSystem = new Filesystem(new LocalAdapter(__DIR__));
-                    $fileSystem->addPlugin(new LocalSymlinkPlugin\Symlink());
-
-                    return new InitController(
-                        $sl->get('Zend\Db\Adapter\Adapter'),
-                        $fileSystem
-                    );
-                },
-                'SiteConfig\Controller\Admin\Show' => function (ControllerManager $cm) {
-                    $sl = $cm->getServiceLocator();
-
-                    return new ShowController(
-                        $sl->get('SiteConfig\Scope\Service'),
-                        $sl->get('SiteConfig\Value\Service'),
-                        new ListViewModel()
-                    );
-                },
-
-                'SiteConfig\Controller\Admin\SaveAjax' => function (ControllerManager $cm) {
-                    return new SaveAjaxController(
-                        new SaveAjaxViewModel()
-                    );
-                },
-            ),
-
-            'invokables' => array(
-
-            )
-        );
-    }
 }

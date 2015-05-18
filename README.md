@@ -45,7 +45,7 @@ $ php composer.phar update
 return array(
     'modules' => array(
         // ...
-        'SiteConfig',
+        'T4webSiteConfig',
     ),
     // ...
 );

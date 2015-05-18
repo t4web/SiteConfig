@@ -1,5 +1,5 @@
 <?php
-use SiteConfig\AcceptanceTester;
+use T4webSiteConfig\AcceptanceTester;
 
 $I = new AcceptanceTester($scenario);
 $I->wantTo('sign in');
