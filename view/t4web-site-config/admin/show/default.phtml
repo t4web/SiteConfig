@@ -8,15 +8,13 @@
         <div class="col-md-12">
             <div class="box box-solid">
                 <div class="box-body">
-                    <form role="form" id="config-values">
-                        <?php if ($viewModel->getValues()->count()): ?>
+                    <?php if ($viewModel->getValues()->count()): ?>
+                        <form role="form" id="config-values">
                             <?php foreach ($viewModel->getValues() as $value): ?>
                                 <?= $this->partial('t4web-site-config/partials/admin-config-value.phtml', ['name' => $value->getName(), 'value' => $value->getValue()]) ?>
                             <?php endforeach; ?>
-                        <?php else: ?>
-                            <?= $this->partial('t4web-site-config/partials/admin-config-value.phtml', ['name' => 'default', 'value' => '']) ?>
-                        <?php endif; ?>
-                    </form>
+                        </form>
+                    <?php endif; ?>
                 </div>
             </div>
         </div>
