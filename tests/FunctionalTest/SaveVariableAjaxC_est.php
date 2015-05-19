@@ -1,10 +1,21 @@
 <?php
-namespace T4webSiteConfig\FunctionalTest;
+namespace T4webSiteConfigTest\FunctionalTest;
 
-use T4webSiteConfig\FunctionalTester;
+use T4webSiteConfigTest\FunctionalTester;
 
 class SaveVariableAjaxCest
 {
+
+    public function _before(FunctionalTester $I)
+    {
+        $I->amOnPage('/login-form');
+        $I->fillField('username', 'asd');
+        $I->fillField('password', '111111');
+        $I->click('SIGN IN');
+
+        $I->see('Dashboard', '#content-wrapper .page-header');
+        $I->seeInCurrentUrl('/');
+    }
 
     /**
      * @var FunctionalTester

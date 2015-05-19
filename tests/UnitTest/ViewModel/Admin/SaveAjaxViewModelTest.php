@@ -1,7 +1,7 @@
 <?php
-namespace SiteConfig\UnitTest\ViewModel\Admin;
+namespace T4webSiteConfigTest\UnitTest\ViewModel\Admin;
 
-use SiteConfig\ViewModel\Admin\SaveAjaxViewModel;
+use T4webSiteConfig\ViewModel\Admin\SaveAjaxViewModel;
 
 class SaveAjaxViewModelTest extends \PHPUnit_Framework_TestCase
 {

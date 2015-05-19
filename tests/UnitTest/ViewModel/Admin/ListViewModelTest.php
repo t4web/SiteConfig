@@ -1,51 +1,43 @@
 <?php
-namespace SiteConfig\UnitTest\ViewModel\Admin;
+namespace T4webSiteConfigTest\UnitTest\ViewModel\Admin;
 
-use SiteConfig\ViewModel\Admin\ListViewModel;
-use SiteConfig\Scope\ScopesCollection;
-use SiteConfig\Scope\Scope;
+use T4webSiteConfig\ViewModel\Admin\ListViewModel;
+use T4webBase\Domain\Collection;
+use T4webSiteConfig\Scope\Scope;
 
 class ListViewModelTest extends \PHPUnit_Framework_TestCase
 {
     public function testDetermineShouldReturnActiveForFirstScope()
     {
-        $scopes = new ScopesCollection();
-        $scope1 = new Scope('scope-1');
-        $scope2 = new Scope('scope-2');
-        $scope3 = new Scope('scope-3');
-
-        $scopes[] = $scope1;
-        $scopes[] = $scope2;
-        $scopes[] = $scope3;
+        $scopes = new Collection();
+        $scopes->offsetSet(1, new Scope(array('name' => 'scope-1')));
+        $scopes->offsetSet(2, new Scope(array('name' => 'scope-2')));
+        $scopes->offsetSet(3, new Scope(array('name' => 'scope-3')));
 
         $viewModel = new ListViewModel();
 
         $viewModel->setScopes($scopes);
 
-        $this->assertEquals('class="active"', $viewModel->determineActiveForScope($scope1));
-        $this->assertEquals('', $viewModel->determineActiveForScope($scope2));
-        $this->assertEquals('', $viewModel->determineActiveForScope($scope3));
+        $this->assertEquals('class="active"', $viewModel->determineActiveForScope($scopes->offsetGet(1)));
+        $this->assertEquals('', $viewModel->determineActiveForScope($scopes->offsetGet(2)));
+        $this->assertEquals('', $viewModel->determineActiveForScope($scopes->offsetGet(3)));
     }
 
     public function testDetermineShouldReturnActiveForSelectedScope()
     {
-        $scopes = new ScopesCollection();
-        $scope1 = new Scope('scope-1');
-        $scope2 = new Scope('scope-2');
-        $scope3 = new Scope('scope-3');
-
-        $scopes[] = $scope1;
-        $scopes[] = $scope2;
-        $scopes[] = $scope3;
+        $scopes = new Collection();
+        $scopes->offsetSet(1, new Scope(array('name' => 'scope-1')));
+        $scopes->offsetSet(2, new Scope(array('name' => 'scope-2')));
+        $scopes->offsetSet(3, new Scope(array('name' => 'scope-4')));
 
         $viewModel = new ListViewModel();
 
         $viewModel->setScopes($scopes);
         $viewModel->setSelectedScopeName('scope-2');
 
-        $this->assertEquals('', $viewModel->determineActiveForScope($scope1));
-        $this->assertEquals('class="active"', $viewModel->determineActiveForScope($scope2));
-        $this->assertEquals('', $viewModel->determineActiveForScope($scope3));
+        $this->assertEquals('', $viewModel->determineActiveForScope($scopes->offsetGet(1)));
+        $this->assertEquals('class="active"', $viewModel->determineActiveForScope($scopes->offsetGet(2)));
+        $this->assertEquals('', $viewModel->determineActiveForScope($scopes->offsetGet(3)));
     }
 
 }

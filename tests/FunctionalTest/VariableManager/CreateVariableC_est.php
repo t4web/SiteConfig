@@ -1,8 +1,8 @@
 <?php
-namespace T4webSiteConfig\FunctionalTest\VariableManager;
+namespace T4webSiteConfigTest\FunctionalTest\VariableManager;
 
 use Zend\Db\Adapter\Adapter;
-use T4webSiteConfig\FunctionalTester;
+use T4webSiteConfigTest\FunctionalTester;
 
 class CreateVariableCest
 {
@@ -16,7 +16,7 @@ class CreateVariableCest
         $variableManager = $I
             ->getApplication()
             ->getServiceManager()
-            ->get('SiteConfig\VariableManager');
+            ->get('T4webSiteConfig\VariableManager');
 
         $name = 'someName';
         $value = 'someValue';
@@ -44,7 +44,7 @@ class CreateVariableCest
 
         $dbAdapter->query(
             "DELETE
-            FROM t4_site_config
+            FROM site_config
             WHERE name = '$name'",
             Adapter::QUERY_MODE_EXECUTE
         );
@@ -59,7 +59,7 @@ class CreateVariableCest
 
         return $dbAdapter->query(
             "SELECT scope, name, value
-            FROM t4_site_config
+            FROM site_config
             WHERE name = '$name'",
             Adapter::QUERY_MODE_EXECUTE
         )->toArray()[0];

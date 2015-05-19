@@ -1,5 +1,5 @@
 <?php
-namespace T4webSiteConfig\UnitTest\ViewModel\Admin;
+namespace T4webSiteConfigTest\UnitTest\ViewModel\Admin;
 
 use T4webSiteConfig\VariableManager;
 
@@ -14,7 +14,7 @@ class VariableManagerTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->valueServiceMock = $this->getMockBuilder('SiteConfig\Value\Service')
+        $this->valueServiceMock = $this->getMockBuilder('T4webBase\Domain\Service\Create')
             ->disableOriginalConstructor()
             ->getMock();
 

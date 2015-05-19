@@ -1,20 +1,19 @@
 <?php
 namespace T4webSiteConfig;
 
-use T4webBase\Domain\Service\Update;
-use T4webSiteConfig\Value\Value;
+use T4webBase\Domain\Service\Create;
 
 class VariableManager
 {
 
     /**
-     * @var Update
+     * @var Create
      */
-    private $serviceUpdate;
+    private $serviceCreate;
 
-    function __construct(Update $serviceUpdate)
+    function __construct(Create $serviceCreate)
     {
-        $this->serviceUpdate = $serviceUpdate;
+        $this->serviceCreate = $serviceCreate;
     }
 
     /**
@@ -25,7 +24,12 @@ class VariableManager
      */
     public function add($name, $value)
     {
-        return $this->serviceUpdate->create(new Value($name, $value));
+        $data = array(
+            'name' => $name,
+            'value' => $value
+        );
+
+        return $this->serviceCreate->create($data);
     }
 
 }

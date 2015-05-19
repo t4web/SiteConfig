@@ -1,11 +1,10 @@
 <?php
-namespace T4webSiteConfig\UnitTest\Controller\Admin;
+namespace T4webSiteConfigTest\UnitTest\Controller\Admin;
 
 use T4webSiteConfig\Controller\Admin\ShowController;
 
-//use SiteConfig\Scope\ScopesCollection;
-//use SiteConfig\Scope\Scope;
-//use SiteConfig\Value\ValuesCollection;
+use T4webBase\Domain\Collection;
+use T4webSiteConfig\Scope\Scope;
 use T4webSiteConfig\ViewModel\Admin\ListViewModel;
 
 class ShowControllerTest extends \PHPUnit_Framework_TestCase
@@ -15,42 +14,42 @@ class ShowControllerTest extends \PHPUnit_Framework_TestCase
      */
     private $controller;
 
-    private $scopeServiceMock;
-    private $valueServiceMock;
+    private $valueFinderMock;
+    private $scopeFinderMock;
     private $viewModel;
 
     protected function setUp()
     {
-        $this->scopeServiceMock = $this->getMockBuilder('SiteConfig\Scope\Service')
+        $this->valueFinderMock = $this->getMockBuilder('T4webBase\Domain\Service\BaseFinder')
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->valueServiceMock = $this->getMockBuilder('SiteConfig\Value\Service')
+        $this->scopeFinderMock = $this->getMockBuilder('T4webBase\Domain\Service\BaseFinder')
             ->disableOriginalConstructor()
             ->getMock();
 
         $this->viewModel = new ListViewModel();
 
         $this->controller = new ShowController(
-            $this->scopeServiceMock,
-            $this->valueServiceMock,
+            $this->valueFinderMock,
+            $this->scopeFinderMock,
             $this->viewModel
         );
     }
 
-    public function testShowAction()
+    public function testDefaultAction()
     {
-        $scopes = new ScopesCollection();
-        $scopes[] = new Scope('name');
+        $scopes = new Collection();
+        $scopes->offsetSet(1, new Scope(array('name' => 'scopeName')));
 
-        $this->scopeServiceMock->expects($this->once())
-            ->method('getAll')
+        $this->scopeFinderMock->expects($this->once())
+            ->method('findMany')
             ->will($this->returnValue($scopes));
 
-        $values = new ValuesCollection();
+        $values = new Collection();
 
-        $this->valueServiceMock->expects($this->once())
-            ->method('getAll')
+        $this->valueFinderMock->expects($this->once())
+            ->method('findMany')
             ->will($this->returnValue($values));
 
         $view = $this->controller->defaultAction();
