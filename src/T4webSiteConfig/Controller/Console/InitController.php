@@ -39,7 +39,7 @@ class InitController extends AbstractActionController
 
         if (!$this->fileSystem->has('/public/js/admin/t4web-site-config/show.js')) {
             $this->fileSystem->symlink(
-                $vendorSiteConfigRootPath . '/public/js/admin/t4web-site-config',
+                $vendorSiteConfigRootPath . '/public/js/admin/t4web-site-config/',
                 getcwd() . '/public/js/admin/t4web-site-config'
             );
         }

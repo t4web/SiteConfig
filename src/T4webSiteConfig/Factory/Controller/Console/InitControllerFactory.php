@@ -18,7 +18,7 @@ class InitControllerFactory implements FactoryInterface
     {
         $serviceManager = $serviceLocator->getServiceLocator();
 
-        $fileSystem = new Filesystem(new LocalAdapter(__DIR__));
+        $fileSystem = new Filesystem(new LocalAdapter(getcwd()));
         $fileSystem->addPlugin(new LocalSymlinkPlugin\Symlink());
 
         return new InitController(
