@@ -16,18 +16,12 @@
       "homepage": "http://about.me/maxgu"
     }
   ],
-  "repositories": [
-    {
-      "type": "git",
-      "url": "https://github.com/t4web/base.git"
-    }
-  ],
   "require": {
     "php": ">=5.4.42",
     "zendframework/zendframework": "~2.5.0",
     "league/flysystem": "0.5.*",
     "falc/flysystem-local-symlink-plugin": "1.0.*",
-    "t4web/base": "dev-master"
+    "t4web/base": "~1.0.0"
   },
   "require-dev": {
     "codeception/codeception": "2.*"
