@@ -7,11 +7,20 @@ use T4webBase\Domain\Entity;
 class Value extends Entity
 {
 
+    protected $scope;
     protected $name;
     protected $value;
 
     /**
-     * @return mixed
+     * @return string
+     */
+    public function getScope()
+    {
+        return $this->scope;
+    }
+
+    /**
+     * @return string
      */
     public function getName()
     {
@@ -19,7 +28,7 @@ class Value extends Entity
     }
 
     /**
-     * @param mixed $name
+     * @param string $name
      */
     public function setName($name)
     {

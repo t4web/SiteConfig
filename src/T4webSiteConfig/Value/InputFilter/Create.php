@@ -12,15 +12,15 @@ class Create extends InputFilter
     public function __construct()
     {
 
-//        // id
-//        $id = new Id('id');
-//        $id->setRequired(false);
-//        $this->add($id);
-
         // name
         $name = new Text('name');
         $name->setRequired(true);
         $this->add($name);
+
+        // scope
+        $scope = new Text('scope');
+        $scope->setRequired(false);
+        $this->add($scope);
 
         // value
         $value = new Text('value');

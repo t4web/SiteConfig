@@ -75,25 +75,7 @@ return array(
         )
     ),
 
-    'db' => array(
-        'tables' => array(
-            't4websiteconfig-value' => array(
-                'name' => 'site_config',
-                'columnsAsAttributesMap' => array(
-                    'id' => 'id',
-                    'name' => 'name',
-                    'value' => 'value',
-                ),
-            ),
-            't4websiteconfig-scope' => array(
-                'name' => 'site_config',
-                'columnsAsAttributesMap' => array(
-                    'id' => 'id',
-                    'scope' => 'name',
-                ),
-            ),
-        ),
-    ),
+    'db' => require __DIR__ . '/db.config.php',
 
     'criteries' => array(
         'Scope' => array(

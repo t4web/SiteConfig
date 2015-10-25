@@ -12,11 +12,6 @@ class Update extends InputFilter
     public function __construct()
     {
 
-//        // id
-//        $id = new Id('id');
-//        $id->setRequired(false);
-//        $this->add($id);
-
         // name
         $name = new Text('name');
         $name->setRequired(false);
