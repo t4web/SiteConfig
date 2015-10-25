@@ -24,7 +24,13 @@ class VariableManager
      */
     public function add($name, $value)
     {
+        $scope = strstr($name, '.', true);
+        if (empty($scope)) {
+            $scope = 'general';
+        }
+
         $data = array(
+            'scope' => $scope,
             'name' => $name,
             'value' => $value
         );
