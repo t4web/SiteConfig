@@ -17,10 +17,19 @@
     }
   ],
   "require": {
-    "php": ">=5.4.42",
-    "zendframework/zendframework": "~2.5.0",
+    "php": ">=5.5.0",
+
+    "zendframework/zend-config": "~2.5.0",
+    "zendframework/zend-console": "~2.5.0",
+    "zendframework/zend-db": "~2.5.0",
+    "zendframework/zend-loader": "~2.5.0",
+    "zendframework/zend-modulemanager": "~2.5.0",
+    "zendframework/zend-mvc": "~2.5.0",
+    "zendframework/zend-servicemanager": "~2.5.0",
+    "zendframework/zend-view": "~2.5.0",
     "league/flysystem": "0.5.*",
     "falc/flysystem-local-symlink-plugin": "1.0.*",
+
     "t4web/base": "~1.0.0"
   },
   "require-dev": {
