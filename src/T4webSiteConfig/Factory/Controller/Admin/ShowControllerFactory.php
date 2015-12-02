@@ -2,21 +2,41 @@
 
 namespace T4webSiteConfig\Factory\Controller\Admin;
 
-use T4webSiteConfig\Controller\Admin\ShowController;
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
+use Sebaks\Crud\Controller\ListController;
+use T4webFilter\Filter;
+use T4webSiteConfig\ViewModel\Admin\ListViewModel;
 
 class ShowControllerFactory implements FactoryInterface
 {
 
-    public function createService(ServiceLocatorInterface $serviceLocator)
+    public function createService(ServiceLocatorInterface $controllerManager)
     {
-        $serviceManager = $serviceLocator->getServiceLocator();
+        $this->serviceLocator = $controllerManager->getServiceLocator();
 
-        return new ShowController(
-            $serviceManager->get('T4webSiteConfig\Value\Service\Finder'),
-            $serviceManager->get('T4webSiteConfig\Scope\Service\Finder'),
-            $serviceManager->get('T4webSiteConfig\ViewModel\Admin\ListViewModel')
+        $repository = $this->serviceLocator->get("T4webSiteConfig\\Value\\Infrastructure\\Repository");
+
+        /** @var ListViewModel $viewModel */
+        $viewModel = $this->serviceLocator->get("T4webSiteConfig\\ViewModel\\Admin\\ListViewModel");
+        $viewModel->setTemplate('t4web-site-config/admin/show/default');
+
+        $requestParams = $this->serviceLocator->get('request')->getQuery()->toArray();
+
+        $scope = 1;
+        if (isset($requestParams['scope'])) {
+            $scope = $requestParams['scope'];
+        }
+
+        $viewModel->setScopeId($scope);
+
+        $instance = new ListController(
+            ['scopeId.equalTo' => $scope, 'limit' => 200],
+            new Filter(),
+            $repository,
+            $viewModel
         );
+
+        return $instance;
     }
 }

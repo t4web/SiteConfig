@@ -1,19 +1,22 @@
-<?php $this->headScript()->appendFile($this->basePath() . '/js/admin/t4web-site-config/show.js'); ?>
-
 <?php $viewModel = $this->viewModel()->getCurrent(); ?>
-<?= $this->partial('t4web-site-config/partials/admin-menu.phtml', ['scopes' => $viewModel->getScopes(), 'viewModel' => $viewModel]) ?>
+
+<section class="content-header">
+    <h1><i class="fa fa-cogs"></i> Site config. <?=$viewModel->getScope()->getName()?></h1>
+</section>
 
 <section class="content">
     <div class="row">
         <div class="col-md-12">
             <div class="box box-solid">
                 <div class="box-body">
-                    <?php if ($viewModel->getValues()->count()): ?>
+                    <?php if ($viewModel->getCollection()->count()): ?>
                         <form role="form" id="config-values">
-                            <?php foreach ($viewModel->getValues() as $value): ?>
+                            <?php foreach ($viewModel->getCollection() as $value): ?>
                                 <?= $this->partial('t4web-site-config/partials/admin-config-value.phtml', ['name' => $value->getName(), 'value' => $value->getValue()]) ?>
                             <?php endforeach; ?>
                         </form>
+                    <?php else: ?>
+                        <p>Config entries does not exists</p>
                     <?php endif; ?>
                 </div>
             </div>

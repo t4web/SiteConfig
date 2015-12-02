@@ -2,7 +2,7 @@
 
 namespace T4webSiteConfig\Scope;
 
-use T4webBase\Domain\Entity;
+use T4webDomain\Entity;
 
 class Scope extends Entity
 {

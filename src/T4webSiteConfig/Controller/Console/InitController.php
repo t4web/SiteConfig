@@ -33,32 +33,52 @@ class InitController extends AbstractActionController
     public function runAction()
     {
 
-        $this->createTable();
-
-        $vendorSiteConfigRootPath = dirname(dirname(dirname(dirname(__DIR__))));
-
-        if (!$this->fileSystem->has('/public/js/admin/t4web-site-config/show.js')) {
-            $this->fileSystem->symlink(
-                $vendorSiteConfigRootPath . '/public/js/admin/t4web-site-config/',
-                getcwd() . '/public/js/admin/t4web-site-config'
-            );
-        }
+        $this->createScopesTable();
+        $this->createValuesTable();
 
         return "Success completed" . PHP_EOL;
     }
 
-    private function createTable()
+    private function createScopesTable()
     {
-        $table = new Ddl\CreateTable('site_config');
+        $table = new Ddl\CreateTable('site_config_scopes');
 
         $table->addColumn(new Column\Integer('id', false, NULL, array('autoincrement' => true)));
 
-        $table->addColumn(new Column\Varchar('scope', 50));
+        $table->addColumn(new Column\Varchar('name', 50));
+
+        $table->addConstraint(new Constraint\PrimaryKey('id'));
+        $table->addConstraint(new Constraint\UniqueKey('name'));
+
+        $sql = new Sql($this->dbAdapter);
+
+        try {
+            $this->dbAdapter->query(
+                $sql->getSqlStringForSqlObject($table),
+                Adapter::QUERY_MODE_EXECUTE
+            );
+        } catch (PDOException $e) {
+            return $e->getMessage() . PHP_EOL;
+        }
+
+        $this->dbAdapter->query(
+            "INSERT INTO `site_config_scopes` (`id` ,`name`) VALUES ('1', 'General');",
+            Adapter::QUERY_MODE_EXECUTE
+        );
+    }
+
+    private function createValuesTable()
+    {
+        $table = new Ddl\CreateTable('site_config_values');
+
+        $table->addColumn(new Column\Integer('id', false, NULL, array('autoincrement' => true)));
+
+        $table->addColumn(new Column\Integer('scope_id', false));
         $table->addColumn(new Column\Varchar('name', 50));
         $table->addColumn(new Column\Text('value', null, true));
 
         $table->addConstraint(new Constraint\PrimaryKey('id'));
-        $table->addConstraint(new Constraint\UniqueKey('name', 'name'));
+        $table->addConstraint(new Constraint\UniqueKey(['scope_id', 'name']));
 
         $sql = new Sql($this->dbAdapter);
 

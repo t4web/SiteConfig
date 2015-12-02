@@ -7,14 +7,43 @@ use Zend\ModuleManager\Feature\ConsoleUsageProviderInterface;
 use Zend\ModuleManager\Feature\ServiceProviderInterface;
 use Zend\Console\Adapter\AdapterInterface as ConsoleAdapterInterface;
 use Zend\ServiceManager\ServiceManager;
-
-use T4webBase\Domain\Service\Create as ServiceCreate;
-use T4webBase\Domain\Service\Update as ServiceUpdate;
-use T4webBase\Domain\Service\BaseFinder as ServiceFinder;
+use Zend\Mvc\MvcEvent;
+use T4webInfrastructure\Repository;
 
 class Module implements AutoloaderProviderInterface, ConfigProviderInterface,
     ConsoleUsageProviderInterface, ServiceProviderInterface
 {
+    public function onBootstrap(MvcEvent $e)
+    {
+        $eventManager = $e->getApplication()->getEventManager();
+        $eventManager->attach(MvcEvent::EVENT_ROUTE, function(MvcEvent $e) {
+            $request = $e->getRequest();
+
+            if ($request instanceof ConsoleRequest) {
+                return;
+            }
+
+            $matchedRoute = $e->getRouteMatch()->getMatchedRouteName();
+
+            if (strpos($matchedRoute, 'admin-') !== false) {
+                /** @var \T4webNavigation\Menu\Navigator $navigator */
+                $serviceManager = $e->getApplication()->getServiceManager();
+                if (!$serviceManager->has('T4webNavigation\Menu\Navigator')) {
+                    return;
+                }
+
+                /** @var Repository $repository */
+                $repository = $serviceManager->get("T4webSiteConfig\\Scope\\Infrastructure\\Repository");
+
+                $navigator = $serviceManager->get('T4webNavigation\Menu\Navigator');
+                $navigator->addEntry('Config', 'site-config-admin-show', 'menu-icon fa fa-cogs');
+
+                foreach($repository->findMany($repository->createCriteria([])) as $scope) {
+                    $navigator->addSubEntry('Config', $scope->getName(), 'site-config-admin-show', 'fa fa-circle-o', [], ['scope' => $scope->getId()]);
+                }
+            }
+        }, -2);
+    }
 
     public function getConfig($env = null)
     {

@@ -27,13 +27,14 @@
     "zendframework/zend-mvc": "~2.5.0",
     "zendframework/zend-servicemanager": "~2.5.0",
     "zendframework/zend-view": "~2.5.0",
-    "league/flysystem": "0.5.*",
-    "falc/flysystem-local-symlink-plugin": "1.0.*",
 
-    "t4web/base": "~1.0.0"
+    "sebaks/crud": "dev-master",
+    "t4web/domain-module": "dev-master",
+
+    "t4web/filter": "dev-master"
   },
   "require-dev": {
-    "codeception/codeception": "2.*"
+    "phpunit/phpunit": "~4.5"
   },
   "autoload": {
     "psr-0": {

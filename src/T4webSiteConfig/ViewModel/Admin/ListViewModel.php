@@ -2,82 +2,72 @@
 
 namespace T4webSiteConfig\ViewModel\Admin;
 
+use ArrayObject;
 use Zend\View\Model\ViewModel;
-use T4webSiteConfig\Scope\Scope;
+use Sebaks\Crud\View\Model\ListViewModelInterface;
+use T4webDomainInterface\Infrastructure\RepositoryInterface;
 
-class ListViewModel extends ViewModel
+class ListViewModel extends ViewModel implements ListViewModelInterface
 {
 
     /**
-     * @var \T4webBase\Domain\Collection
+     * @var RepositoryInterface
      */
-    private $scopes;
+    private $scopeRepository;
 
     /**
-     * @var string
+     * @param RepositoryInterface $scopeRepository
      */
-    private $selectedScopeName;
-
-    /**
-     * @var \T4webBase\Domain\Collection
-     */
-    private $values;
-
-    /**
-     * @return \T4webBase\Domain\Collection
-     */
-    public function getScopes()
+    public function __construct(RepositoryInterface $scopeRepository)
     {
-        return $this->scopes;
+        $this->scopeRepository = $scopeRepository;
     }
 
     /**
-     * @param \T4webBase\Domain\Collection $scopes
+     * @return ArrayObject
      */
-    public function setScopes($scopes)
+    public function getCollection()
     {
-        $this->scopes = $scopes;
+        return $this->getVariable('collection');
     }
 
     /**
-     * @param Scope $scope
-     * @return string
+     * @param ArrayObject $collection
      */
-    public function determineActiveForScope(Scope $scope)
+    public function setCollection(ArrayObject $collection)
     {
-        if (empty($this->selectedScopeName)) {
-            $this->selectedScopeName = $scope->getName();
-        }
-
-        if ($this->selectedScopeName == $scope->getName()) {
-            return 'class="active"';
-        }
-
-        return '';
+        $this->setVariable('collection', $collection);
     }
 
     /**
-     * @param string $selectedScopeName
+     * @return array
      */
-    public function setSelectedScopeName($selectedScopeName)
+    public function getFilter()
     {
-        $this->selectedScopeName = $selectedScopeName;
+        return $this->getVariable('filter');
     }
 
     /**
-     * @return \T4webBase\Domain\Collection
+     * @param array $filter
      */
-    public function getValues()
+    public function setFilter(array $filter)
     {
-        return $this->values;
+        $this->setVariable('filter', $filter);
     }
 
     /**
-     * @param \T4webBase\Domain\Collection $values
+     * @param int $id
      */
-    public function setValues($values)
+    public function setScopeId($id)
     {
-        $this->values = $values;
+        $this->setVariable('scopeId', $id);
     }
 
+    /**
+     * @return null|\T4webDomainInterface\EntityInterface
+     */
+    public function getScope()
+    {
+        return $this->scopeRepository->findById($this->getVariable('scopeId'));
+    }
 }

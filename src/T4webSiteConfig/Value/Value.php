@@ -2,21 +2,21 @@
 
 namespace T4webSiteConfig\Value;
 
-use T4webBase\Domain\Entity;
+use T4webDomain\Entity;
 
 class Value extends Entity
 {
 
-    protected $scope;
+    protected $scopeId;
     protected $name;
     protected $value;
 
     /**
      * @return string
      */
-    public function getScope()
+    public function getScopeId()
     {
-        return $this->scope;
+        return $this->scopeId;
     }
 
     /**

@@ -1,5 +1,10 @@
 <?php
 
+namespace T4webSiteConfig;
+
+use Zend\ServiceManager\ServiceLocatorInterface;
+use T4webSiteConfig\ViewModel\Admin\ListViewModel;
+
 return array(
 
     'view_manager' => array(
@@ -22,11 +27,16 @@ return array(
     ),
 
     'service_manager' => array(
+        'factories' => array(
+            'T4webSiteConfig\ViewModel\Admin\ListViewModel' => function(ServiceLocatorInterface $serviceLocator) {
+                $repository = $serviceLocator->get("T4webSiteConfig\\Scope\\Infrastructure\\Repository");
+                return new ListViewModel($repository);
+            }
+        ),
         'invokables' => array(
             'T4webSiteConfig\Value\InputFilter\Create' => 'T4webSiteConfig\Value\InputFilter\Create',
             'T4webSiteConfig\Value\InputFilter\Update' => 'T4webSiteConfig\Value\InputFilter\Update',
 
-            'T4webSiteConfig\ViewModel\Admin\ListViewModel' => 'T4webSiteConfig\ViewModel\Admin\ListViewModel',
             'T4webSiteConfig\ViewModel\Admin\SaveAjaxViewModel' => 'T4webSiteConfig\ViewModel\Admin\SaveAjaxViewModel',
         ),
     ),
@@ -75,50 +85,5 @@ return array(
         )
     ),
 
-    'db' => require __DIR__ . '/db.config.php',
-
-    'criteries' => array(
-        'Scope' => array(
-            'empty' => array(
-                'table' => 'site_config',
-            ),
-            'Id' => array(
-                'table' => 'site_config',
-                'field' => 'name',
-                'buildMethod' => 'addFilterEqual',
-            ),
-            'id' => array(
-                'table' => 'site_config',
-                'field' => 'id',
-                'buildMethod' => 'addFilterEqual',
-            ),
-            'ids' => array(
-                'table' => 'site_config',
-                'field' => 'id',
-                'buildMethod' => 'addFilterIn',
-            ),
-
-        ),
-        'Value' => array(
-            'empty' => array(
-                'table' => 'site_config',
-            ),
-            'Id' => array(
-                'table' => 'site_config',
-                'field' => 'name',
-                'buildMethod' => 'addFilterEqual',
-            ),
-            'id' => array(
-                'table' => 'site_config',
-                'field' => 'id',
-                'buildMethod' => 'addFilterEqual',
-            ),
-            'ids' => array(
-                'table' => 'site_config',
-                'field' => 'id',
-                'buildMethod' => 'addFilterIn',
-            ),
-
-        ),
-    ),
+    'entity_map' => require __DIR__ . '/entity_map.config.php',
 );
