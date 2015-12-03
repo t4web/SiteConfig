@@ -23,3 +23,36 @@
         </div>
     </div>
 </section>
+
+<?php $this->headScript()->captureStart() ?>
+$(function () {
+    $('#config-values button').click(function () {
+        var $input = $(this).parent().parent().find('input');
+        var $formGroup = $(this).parent().parent().parent();
+
+        $.ajax({
+            url: '/admin/site-config/save',
+            type: 'POST',
+            data: {
+                name: $input.attr('name'),
+                value: $input.val()
+            },
+            success: function (response) {
+                $formGroup.addClass('has-success');
+                $formGroup.find('label').append(' <i class="fa fa-check"></i> Saved');
+                setTimeout(
+                    function(){
+                        $formGroup.removeClass('has-success');
+                        var label = $formGroup.find('label').html();
+                        $formGroup.find('label').html(label.replace(' <i class="fa fa-check"></i> Saved', ''));
+                    },
+                    3000
+                );
+            },
+            error: function (response) {
+                alert(response.message);
+            }
+        });
+    });
+});
+<?php $this->headScript()->captureEnd() ?>

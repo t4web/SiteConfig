@@ -34,6 +34,7 @@ return array(
             }
         ),
         'invokables' => array(
+            Value\Validator::class => Value\Validator::class,
             'T4webSiteConfig\Value\InputFilter\Create' => 'T4webSiteConfig\Value\InputFilter\Create',
             'T4webSiteConfig\Value\InputFilter\Update' => 'T4webSiteConfig\Value\InputFilter\Update',
 
