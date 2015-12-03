@@ -39,7 +39,7 @@ class Module implements AutoloaderProviderInterface, ConfigProviderInterface,
                 $navigator->addEntry('Config', 'site-config-admin-show', 'menu-icon fa fa-cogs');
 
                 foreach($repository->findMany($repository->createCriteria([])) as $scope) {
-                    $navigator->addSubEntry('Config', $scope->getName(), 'site-config-admin-show', 'fa fa-circle-o', [], ['scope' => $scope->getId()]);
+                    $navigator->addSubEntry('Config', $scope->getName(), 'site-config-admin-show', 'fa fa-circle-o', ['scope' => $scope->getId()]);
                 }
             }
         }, -2);

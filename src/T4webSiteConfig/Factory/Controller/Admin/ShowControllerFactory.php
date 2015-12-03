@@ -4,6 +4,7 @@ namespace T4webSiteConfig\Factory\Controller\Admin;
 
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
+use Zend\Mvc\MvcEvent;
 use Sebaks\Crud\Controller\ListController;
 use T4webFilter\Filter;
 use T4webSiteConfig\ViewModel\Admin\ListViewModel;
@@ -21,12 +22,10 @@ class ShowControllerFactory implements FactoryInterface
         $viewModel = $this->serviceLocator->get("T4webSiteConfig\\ViewModel\\Admin\\ListViewModel");
         $viewModel->setTemplate('t4web-site-config/admin/show/default');
 
-        $requestParams = $this->serviceLocator->get('request')->getQuery()->toArray();
+        /** @var MvcEvent $event */
+        $event = $this->serviceLocator->get('Application')->getMvcEvent();
 
-        $scope = 1;
-        if (isset($requestParams['scope'])) {
-            $scope = $requestParams['scope'];
-        }
+        $scope = $event->getRouteMatch()->getParam('scope', 1);
 
         $viewModel->setScopeId($scope);
 

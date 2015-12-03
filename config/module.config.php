@@ -44,13 +44,14 @@ return array(
     'router' => array(
         'routes' => array(
             'site-config-admin-show' => array(
-                'type' => 'Literal',
+                'type' => 'Segment',
                 'options' => array(
-                    'route' => '/admin/site-config',
+                    'route' => '/admin/site-config[/:scope]',
                     'defaults' => array(
                         '__NAMESPACE__' => 'T4webSiteConfig\Controller\Admin',
                         'controller' => 'Show',
                         'action' => 'default',
+                        'scope' => 'General',
                     ),
                 ),
             ),
