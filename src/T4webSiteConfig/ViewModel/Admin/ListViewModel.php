@@ -40,9 +40,36 @@ class ListViewModel extends ViewModel implements ListViewModelInterface
     }
 
     /**
+     * @param string $name
      * @return array
      */
-    public function getFilter()
+    public function getErrors($name = null)
+    {
+        $errors = $this->getVariable('errors');
+
+        if (!empty($name)) {
+            if (array_key_exists($name, $errors)) {
+                return $errors[$name];
+            } else {
+                return [];
+            }
+        }
+
+        return $this->getVariable('errors');
+    }
+
+    /**
+     * @param array $errors
+     */
+    public function setErrors(array $errors)
+    {
+        $this->setVariable('errors', $errors);
+    }
+
+    /**
+     * @return array
+     */
+    public function getInputData()
     {
         return $this->getVariable('filter');
     }
@@ -50,7 +77,7 @@ class ListViewModel extends ViewModel implements ListViewModelInterface
     /**
      * @param array $filter
      */
-    public function setFilter(array $filter)
+    public function setInputData(array $filter)
     {
         $this->setVariable('filter', $filter);
     }
