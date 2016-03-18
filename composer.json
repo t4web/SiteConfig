@@ -27,10 +27,11 @@
     "zendframework/zend-mvc": "~2.5.0",
     "zendframework/zend-servicemanager": "~2.5.0",
     "zendframework/zend-view": "~2.5.0",
+    
+    "falc/flysystem-local-symlink-plugin": "1.*"
 
     "sebaks/crud": "~1.0.4",
     "t4web/domain-module": "~1.0.0",
-
     "t4web/filter": "~1.0.0"
   },
   "require-dev": {
