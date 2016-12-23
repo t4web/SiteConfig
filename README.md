@@ -1,16 +1,7 @@
 SiteConfig
 ==========
 
-Site config module - provide key-value storage and visualization configuration
-
-Introduction
-------------
-
-Requirements
-------------
-
-Features / Goals
-----------------
+ZF2 Module. Site config module - provide key-value configuration.
 
 Installation
 ------------
@@ -18,22 +9,20 @@ Installation
 
 #### By cloning project
 
-1. Clone this project into your `./vendor/` directory.
+Clone this project into your `./vendor/` directory.
 
 #### With composer
-
-1. Add this project in your composer.json:
-
-```json
-"require": {
-    "t4web/site-config": "dev-master"
-}
-```
 
 2. Now tell composer to download SiteConfig by running the command:
 
 ```bash
-$ php composer.phar update
+$ composer require t4web/site-config:"~2.0.0"
+```
+
+3. Create tables by initial script:
+
+```bash
+$ php public/index.php site-config init
 ```
 
 #### Post installation
@@ -45,31 +34,27 @@ $ php composer.phar update
 return array(
     'modules' => array(
         // ...
-        'T4webSiteConfig',
+        'T4web\SiteConfig',
     ),
     // ...
 );
 ```
 
-Testing
-------------
-Unit test runnig from authentication module directory.
-```bash
-$ codeception run unit
-```
-For running Functional tests you need create codeception.yml in you project root, like this:
-```yml
-include:
-    - vendor/t4web/site-config  # <- add site-config module tests to include
+Quick start
+-----------
+Insert scopes and values to tables `site_config_values` and `site_config_scopes`:
 
-paths:
-    log: tests/_output
+```sql
+INSERT INTO `site_config_scopes` (`id`, `name`) 
+VALUES (1, 'products');
 
-settings:
-    colors: true
-    memory_limit: 1024M
+INSERT INTO `site_config_values` (`id`, `scope_id`, `name`, `value`) 
+VALUES (1, 1, 'items-per-page', 20);
 ```
-After this you may run functional tests from your project root
-```bash
-$ codeception run
+
+Use it anywhere
+
+```php
+$siteConfig = $serviceLocator->get("T4web\SiteConfig\Config");
+$siteConfig->get('items-per-page', 'products');
 ```

@@ -1,14 +1,24 @@
 <?php
 
-namespace T4webSiteConfig\Value;
+namespace T4web\SiteConfig\Entity;
 
 use T4webDomain\Entity;
 
 class Value extends Entity
 {
-
+    /**
+     * @var int
+     */
     protected $scopeId;
+
+    /**
+     * @var string
+     */
     protected $name;
+
+    /**
+     * @var value
+     */
     protected $value;
 
     /**
@@ -28,27 +38,10 @@ class Value extends Entity
     }
 
     /**
-     * @param string $name
-     */
-    public function setName($name)
-    {
-        $this->name = $name;
-    }
-
-    /**
      * @return mixed
      */
     public function getValue()
     {
         return $this->value;
     }
-
-    /**
-     * @param mixed $value
-     */
-    public function setValue($value)
-    {
-        $this->value = $value;
-    }
-
 }

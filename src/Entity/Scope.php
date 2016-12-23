@@ -1,6 +1,6 @@
 <?php
 
-namespace T4webSiteConfig\Scope;
+namespace T4web\SiteConfig\Entity;
 
 use T4webDomain\Entity;
 
@@ -18,13 +18,4 @@ class Scope extends Entity
     {
         return $this->name;
     }
-
-    /**
-     * @param mixed $name
-     */
-    public function setName($name)
-    {
-        $this->name = $name;
-    }
-
 }
