@@ -57,4 +57,6 @@ Use it anywhere
 ```php
 $siteConfig = $serviceLocator->get("T4web\SiteConfig\Config");
 $siteConfig->get('items-per-page', 'products');
+//...
+$siteConfig->set('items-per-page', 'products', 10);
 ```
