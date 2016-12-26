@@ -36,7 +36,7 @@ class InitController extends AbstractActionController
               `id` INTEGER UNSIGNED NOT NULL AUTO_INCREMENT,
               `name` VARCHAR(255) NOT NULL,
               PRIMARY KEY (`id`),
-              UNIQUE KEY (`name`),
+              UNIQUE KEY (`name`)
             ) ENGINE=InnoDB CHARSET=UTF8 AUTO_INCREMENT=1;";
 
         $this->dbAdapter->query(
@@ -54,7 +54,7 @@ class InitController extends AbstractActionController
               `value` TEXT,
               PRIMARY KEY (`id`),
               UNIQUE KEY (`scope_id`, `name`),
-              FOREIGN KEY (`scope_id`) REFERENCES `$scopesTable`(`id`) ON UPDATE CASCADE ON DELETE RESTRICT,
+              FOREIGN KEY (`scope_id`) REFERENCES `$scopesTable`(`id`) ON UPDATE CASCADE ON DELETE RESTRICT
             ) ENGINE=InnoDB CHARSET=UTF8 AUTO_INCREMENT=1;";
 
         $this->dbAdapter->query(
