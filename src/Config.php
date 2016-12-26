@@ -79,6 +79,11 @@ class Config
         if (!isset($this->values[$scope][$name])) {
             throw new Exception\InvalidArgumentException("Config param $name not found in scope $scope.");
         }
+        
+        if (empty($this->values)) {
+            $this->load();
+        }
+
 
         /** @var Value $value */
         $configValue = $this->values[$scope][$name];
