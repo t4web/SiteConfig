@@ -44,4 +44,12 @@ class Value extends Entity
     {
         return $this->value;
     }
+
+    /**
+     * @param mixed $value
+     */
+    public function setValue($value)
+    {
+        $this->value = $value;
+    }
 }

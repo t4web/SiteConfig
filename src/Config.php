@@ -3,6 +3,7 @@
 namespace T4web\SiteConfig;
 
 use T4webDomainInterface\Infrastructure\RepositoryInterface;
+use T4web\SiteConfig\Entity\Value;
 
 class Config
 {
@@ -58,6 +59,32 @@ class Config
         }
 
         return $this->values[$scope][$name]->getValue();
+    }
+
+    /**
+     * @param string $name
+     * @param string $scope
+     * @param string $value
+     */
+    public function set($name, $scope, $value)
+    {
+        $this->assertNotEmpty($name, 'name');
+        $this->assertNotEmpty($scope, 'scope');
+        $this->assertNotEmpty($value, 'value');
+
+        if (!isset($this->values[$scope])) {
+            throw new Exception\InvalidArgumentException("Scope $scope not found.");
+        }
+
+        if (!isset($this->values[$scope][$name])) {
+            throw new Exception\InvalidArgumentException("Config param $name not found in scope $scope.");
+        }
+
+        /** @var Value $value */
+        $configValue = $this->values[$scope][$name];
+        $configValue->setValue($value);
+
+        $this->valueRepository->add($configValue);
     }
 
     private function assertNotEmpty($value, $name)
