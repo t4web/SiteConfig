@@ -71,6 +71,10 @@ class Config
         $this->assertNotEmpty($name, 'name');
         $this->assertNotEmpty($scope, 'scope');
         $this->assertNotEmpty($value, 'value');
+        
+        if (empty($this->values)) {
+            $this->load();
+        }
 
         if (!isset($this->values[$scope])) {
             throw new Exception\InvalidArgumentException("Scope $scope not found.");
@@ -79,11 +83,6 @@ class Config
         if (!isset($this->values[$scope][$name])) {
             throw new Exception\InvalidArgumentException("Config param $name not found in scope $scope.");
         }
-        
-        if (empty($this->values)) {
-            $this->load();
-        }
-
 
         /** @var Value $value */
         $configValue = $this->values[$scope][$name];
