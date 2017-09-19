@@ -70,7 +70,6 @@ class Config
     {
         $this->assertNotEmpty($name, 'name');
         $this->assertNotEmpty($scope, 'scope');
-        $this->assertNotEmpty($value, 'value');
         
         if (empty($this->values)) {
             $this->load();
